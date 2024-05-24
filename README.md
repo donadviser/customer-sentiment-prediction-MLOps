@@ -14,3 +14,13 @@ based on features like order status, price, payment, etc.
 
 In order to achieve this in a real-world scenario, we will be using [ZenML](https://zenml.io/) to
 build a production-ready pipeline to predict the customer satisfaction score for the next order or purchase.
+
+
+## Install Packages
+- create virtual environment: I use pyenv
+  ```pyenv virtualenv 3.11 venv311_zenml
+     pyenv local venv311_zenml
+  ```
+`pip install "zenml["server"]"`
+
+
