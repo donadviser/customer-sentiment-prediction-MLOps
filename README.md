@@ -18,9 +18,9 @@ build a production-ready pipeline to predict the customer satisfaction score for
 
 ## Install Packages
 - create virtual environment: I use pyenv
-  ```pyenv virtualenv 3.11 venv311_zenml
-     pyenv local venv311_zenml
-  ```
+  `pyenv virtualenv 3.11 venv311_zenml`
+  `pyenv local venv311_zenml`
+  
 `pip install "zenml["server"]"`
 
 
