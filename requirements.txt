@@ -6,4 +6,5 @@ streamlit
 xgboost
 markupsafe
 zenml
+mlflow
 -e .

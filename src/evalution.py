@@ -17,7 +17,7 @@ class MSE(Evaluation):
     Strategy for evaluating mean squared error
     """
 
-    def calcualate_scores(self, y_test: np.ndarray, y_pred: np.ndarray):
+    def calculate_scores(self, y_test: np.ndarray, y_pred: np.ndarray):
         try:
             logging.info("Calculating MSE")
             logging.info("y_pred: {y_pred}")

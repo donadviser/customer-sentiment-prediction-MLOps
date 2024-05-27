@@ -6,8 +6,12 @@ from src.model_config import ModelNameConfig
 from zenml import step
 
 import pandas as pd
+import mlflow
+from zenml.client import Client
 
-@step
+experiment_tracker = Client().active_stack.experiment_tracker
+
+@step(experiment_tracker=experiment_tracker.name)
 def train_model(
     X_train: pd.DataFrame,
     y_train: pd.DataFrame,
@@ -30,6 +34,7 @@ def train_model(
     try:
         model = None
         if model_config.model_name == "LinearRegression":
+            mlflow.sklearn.autolog()
             model = LinearRegressionModel()
             trained_model = model.train(X_train, y_train)
             logging.info("Model training completed successfully")

@@ -22,6 +22,32 @@ build a production-ready pipeline to predict the customer satisfaction score for
   `pyenv local venv311_zenml`
   
 `pip install "zenml["server"]"`
+
 `zenml up`
+
+To integrate zenml with mflow, run the following command
+`zenml integration install mlflow -y`
+
+The project can only be executed with a ZenML stack that has an MLflow
+experiment tracker and model deployer as a component. Configuring a new stack
+with the two components are as follows:
+
+```bash
+zenml integration install mlflow -y
+zenml experiment-tracker register mlflow_tracker --flavor=mlflow
+zenml model-deployer register mlflow --flavor=mlflow
+zenml stack register local-mlflow-stack -a default -o default -d mlflow -e mlflow_tracker --set
+```
+
+This should give you the following stack to work with. 
+
+![mlflow_stack](_assets/mlflow_stack.png)
+
+
+Add this line before callint the training pipeline
+`print(Client().active_stack.experiment_tracker.get_tracking_uri())`
+
+use the output to as parameter below:
+`mlflow ui --backend-store-uri "file:/Users/don/Library/Application Support/zenml/local_stores/afe9b1d8-06da-4d66-bcd1-d75224ab95f4/mlruns"`
 
 
