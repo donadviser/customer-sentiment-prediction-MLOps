@@ -22,5 +22,6 @@ build a production-ready pipeline to predict the customer satisfaction score for
   `pyenv local venv311_zenml`
   
 `pip install "zenml["server"]"`
+`zenml up`
 
 
