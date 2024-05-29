@@ -31,6 +31,22 @@ class DataPreProcessStrategy(DataStrategy):
         Returns:
             Union[pd.DataFrame, pd.Series]: Preprocessed data
         """
+        datetime_cols = ['order_purchase_timestamp', 'order_approved_at', 
+                         'order_delivered_carrier_date', 'order_delivered_customer_date', 
+                         'order_estimated_delivery_date', 'shipping_limit_date'
+                         ]
+        
+        id_cols = ['order_id', 'customer_id', 'customer_unique_id', 
+                   'order_item_id', 'product_id', 'seller_id'
+                   ]
+        
+        redundant_cols = ['product_name_lenght', 'product_description_lenght', 
+                          'product_photos_qty', 'review_score', 'order_delivered_customer_date',
+                          'order_approved_at', 'order_estimated_delivery_date', 'order_purchase_timestamp',
+                          'product_length_cm', 'product_height_cm', 'product_width_cm',
+                          'price', 'freight_value'
+                          ]
+
         try:
             data = (data
              .drop(
