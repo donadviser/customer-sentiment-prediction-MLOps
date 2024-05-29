@@ -52,6 +52,8 @@ class DataPreProcessStrategy(DataStrategy):
             .select_dtypes(include=[np.number])
             .drop(["customer_zip_code_prefix", "order_item_id"], axis=1)
             )
+            logging.info(data.head())
+            print(data.columns)
             return data
         except Exception as e:
             raise CustomException(e, "Errorr while processing data")

@@ -7,7 +7,7 @@ from src.exceptions import CustomException
 from src.data_cleaning import DataCleaning, DataDivideStrategy, DataPreProcessStrategy
 from zenml import step
 
-@step
+@step(enable_cache=False)
 def clean_df(df: pd.DataFrame)->Tuple[
     Annotated[pd.DataFrame, "X_train"],
     Annotated[pd.DataFrame, "X_test"],

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/4a50fd286c7741d3a424741b182c5576/artifacts
+end_time: 1716878876366
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4a50fd286c7741d3a424741b182c5576
+run_name: entertaining-eel-454
+run_uuid: 4a50fd286c7741d3a424741b182c5576
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1716878853885
+status: 3
+tags: []
+user_id: don

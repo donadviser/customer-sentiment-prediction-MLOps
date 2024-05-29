@@ -7,7 +7,7 @@ if __name__ == "__main__":
     try:
         logging.info(f"Training Pipeline Started")
         data_path = "data/olist_customers_dataset.csv"
-        print(Client().active_stack.experiment_tracker.get_tracking_uri())
+        #print(Client().active_stack.experiment_tracker.get_tracking_uri())
         training_pipeline(data_path)
         logging.info(f"Training Pipeline successfully")
     except Exception as e:

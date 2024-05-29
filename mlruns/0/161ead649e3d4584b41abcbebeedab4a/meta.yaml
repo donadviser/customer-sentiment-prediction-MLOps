@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/161ead649e3d4584b41abcbebeedab4a/artifacts
+end_time: 1716898975813
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 161ead649e3d4584b41abcbebeedab4a
+run_name: fortunate-fox-786
+run_uuid: 161ead649e3d4584b41abcbebeedab4a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1716898953409
+status: 3
+tags: []
+user_id: don

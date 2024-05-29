@@ -9,9 +9,12 @@ import pandas as pd
 import mlflow
 from zenml.client import Client
 
-experiment_tracker = Client().active_stack.experiment_tracker
+#experiment_tracker = Client().active_stack.experiment_tracker
 
-@step(experiment_tracker=experiment_tracker.name)
+#@step(experiment_tracker=experiment_tracker.name)
+
+
+@step
 def train_model(
     X_train: pd.DataFrame,
     y_train: pd.DataFrame,
