@@ -1,53 +1,54 @@
 import logging
+import os
+import sys
+
+# Get the path of the parent folder
+parent_folder_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Add the parent folder to the Python path
+sys.path.append(parent_folder_path)
 
 import pandas as pd
+import joblib
 from src.logger import logging
-#from src.exception import CustomException
+from src.exceptions import CustomException
 
 from src.data_cleaning import (
-    DataCleaning,
+    DataCleaning, 
     DataDateTimeConverter,
     DataPreProcessStrategy,
-    DropMissingThreshold,
-    DataEncodeStrategy
-    )
-
-
+)
 
 def get_data_for_test(target_col: str='satisfaction'):
     try:
+        logging.info("Starting to get encoded data for test")
         df = pd.read_csv("./data/olist_customers_dataset.csv")
         df = df.sample(n=100)
 
         data_preprocessed = DataCleaning(df, DataDateTimeConverter())
         data_preprocessed = data_preprocessed.handle_data()
-        print(f"DataDateTimeConverter:\n{data_preprocessed.columns}")
+        #print(f"DataDateTimeConverter:\n{data_preprocessed.head()}")
 
         data_preprocessed = DataCleaning(data_preprocessed, DataPreProcessStrategy())
         data_preprocessed = data_preprocessed.handle_data()
-        print(f"DataPreProcessStrategy:\n{data_preprocessed.shape}")
-
-        data_preprocessed = DataCleaning(data_preprocessed, DropMissingThreshold())
-        data_preprocessed = data_preprocessed.handle_data()
-        print(f"DropMissingThreshold:\n{data_preprocessed.shape}")
-        print(data_preprocessed.columns)
-        print(data_preprocessed.head())
+        #print(f"DataPreProcessStrategy:\n{data_preprocessed.columns}")
 
         X_test_preprocessed = data_preprocessed.drop(columns=target_col)
-        y_test = data_preprocessed[target_col]
 
-        data_encoder = DataCleaning((data_preprocessed), DataEncodeStrategy(), target_col)
-        preprocessor = data_encoder.handle_data()
+        # load the pipeline from the file
+        loaded_preprocess_pipeline = joblib.load('artefacts/preprocessor.joblib')
 
-        X_train_preprocessed = preprocessor.fit_transform(X_test_preprocessed, y_test)
-        X_test_preprocessed = preprocessor.transform(X_test_preprocessed)
+        # Use the loaded preprocessing pipeline to transform the new data
+        #print(loaded_preprocess_pipeline)
+        X_test_encoded = loaded_preprocess_pipeline.transform(X_test_preprocessed)
+        #print(X_test_encoded.shape)
+    
+        logging.info("Conpleted preprocessing pipeline for the test dataset")
         
-        return X_test_preprocessed
+        return X_test_encoded
     except Exception as e:
-        logging.error(e)
-        raise e
+        raise CustomException(e, "Failed to load preprocessing pipeline to clean the inference dataset")
     
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     result = get_data_for_test()
-    print(result)
+    print(result[:5,:5])"""

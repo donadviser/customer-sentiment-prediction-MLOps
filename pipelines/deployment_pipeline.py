@@ -44,15 +44,15 @@ requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 
 
 @step(enable_cache=False)
-def dynamic_importer() -> str:
+def dynamic_importer() -> np.ndarray:
     """Downloads the latest data from a mock API."""
     data = get_data_for_test()
+    print(data[:5,:5])
     return data
 
 
 class DeploymentTriggerConfig(BaseParameters):
     """Parameters that are used to trigger the deployment"""
-
     min_accuracy: float = 0.7
 
 
@@ -132,26 +132,6 @@ def predictor(
     """Run an inference request against a prediction service"""
 
     service.start(timeout=10)  # should be a NOP if already started
-    data = json.loads(data)
-    data.pop("columns")
-    data.pop("index")
-    columns_for_df = [
-        "payment_sequential",
-        "payment_installments",
-        "payment_value",
-        "price",
-        "freight_value",
-        "product_name_lenght",
-        "product_description_lenght",
-        "product_photos_qty",
-        "product_weight_g",
-        "product_length_cm",
-        "product_height_cm",
-        "product_width_cm",
-    ]
-    df = pd.DataFrame(data["data"], columns=columns_for_df)
-    json_list = json.loads(json.dumps(list(df.T.to_dict().values())))
-    data = np.array(json_list)
     prediction = service.predict(data)
     return prediction
 
@@ -168,11 +148,11 @@ def continuous_deployment_pipeline(
     df = ingest_df(data_path)
     X_train, X_test, y_train, y_test, preprocessor = clean_df(df, target_col)
 
-    classifier_model = train_model(X_train, y_train, X_test, y_test)
-    accuracy, precision_score, recall_score, f1_score, confusion_matrix, classification_report = evaluate_model(classifier_model, X_test, y_test)
+    model = train_model(X_train, y_train, X_test, y_test)
+    accuracy, precision_score, recall_score, f1_score, confusion_matrix, classification_report = evaluate_model(model, X_test, y_test)
     deployment_decision = deployment_trigger(accuracy=accuracy)
     mlflow_model_deployer_step(
-        model=classifier_model,
+        model=model,
         deploy_decision=deployment_decision,
         workers=workers,
         timeout=timeout,
