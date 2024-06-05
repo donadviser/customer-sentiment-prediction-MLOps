@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/2c9f633396ef4c659138f614f4824af8/artifacts
+end_time: 1717586212087
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2c9f633396ef4c659138f614f4824af8
+run_name: respected-hare-271
+run_uuid: 2c9f633396ef4c659138f614f4824af8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717586210305
+status: 3
+tags: []
+user_id: don

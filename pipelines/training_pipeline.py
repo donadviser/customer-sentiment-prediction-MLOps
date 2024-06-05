@@ -25,11 +25,10 @@ def train_pipeline(data_path: str)->None:
         print(df.columns)
         target_col = "satisfaction"
         X_train_preprocessed, X_test_preprocessed, y_train, y_test, preprocessor = clean_df(df, target_col)
-
-
-        """
         classifier_model = train_model(X_train_preprocessed, y_train, X_test_preprocessed, y_test)
 
+        
+        """
         accuracy, precision_score, recall_score, f1_score, confusion_matrix, classification_report  = evaluate_model(classifier_model, X_test_preprocessed, y_test)
         logging.info(f"accuracy: {accuracy}")
         logging.info(f"precision_score: {precision_score}")

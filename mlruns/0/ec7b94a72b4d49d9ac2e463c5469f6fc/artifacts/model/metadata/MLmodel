@@ -1,0 +1,24 @@
+artifact_path: model
+flavors:
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.4.2
+mlflow_version: 2.12.2
+model_size_bytes: 5060
+model_uuid: ee04f0ae41d5400295fb441a76908e69
+run_id: ec7b94a72b4d49d9ac2e463c5469f6fc
+signature:
+  inputs: '[{"type": "string", "name": "order_status", "required": true}, {"type":
+    "string", "name": "payment_type", "required": true}, {"type": "string", "name":
+    "customer_state", "required": true}, {"type": "string", "name": "product_category_name",
+    "required": true}, {"type": "string", "name": "product_category_name_english",
+    "required": true}]'
+  outputs: '[{"type": "double", "name": "order_status", "required": true}, {"type":
+    "double", "name": "payment_type", "required": true}, {"type": "double", "name":
+    "customer_state", "required": true}, {"type": "double", "name": "product_category_name",
+    "required": true}, {"type": "double", "name": "product_category_name_english",
+    "required": true}]'
+  params: null
+utc_time_created: '2024-06-05 11:17:20.944399'
