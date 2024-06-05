@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/0061a5b28ac44baaa39fab0ef1c1a31b/artifacts
+end_time: 1717587046933
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0061a5b28ac44baaa39fab0ef1c1a31b
+run_name: nimble-mink-865
+run_uuid: 0061a5b28ac44baaa39fab0ef1c1a31b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717587046880
+status: 3
+tags: []
+user_id: don

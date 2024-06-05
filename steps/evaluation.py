@@ -1,53 +1,80 @@
 from src.logger import logging
 from src.exceptions import CustomException
 from zenml import step
-from src.evalution import R2, MSE, RMSE
-from sklearn.base import RegressorMixin
+from src.evaluator import Accuracy, ConfusionMatrix, PrecisionScore, RecallScore, F1Score, ClassificationReport
+from sklearn.base import ClassifierMixin
 import mlflow
+import mlflow.gluon
 import pandas as pd
+import numpy as np
 from typing import Tuple
 from typing_extensions import Annotated
 from zenml.client import Client
 
-#experiment_tracker = Client().active_stack.experiment_tracker
-
+experiment_tracker = Client().active_stack.experiment_tracker
+ 
+# Enable autologging for the relevant framework
+mlflow.sklearn.autolog()
 
 #@step(experiment_tracker=experiment_tracker.name)
-
-
-@step
-def evaluate_model(model: RegressorMixin,
-                   X_test: pd.DataFrame,
-                   y_test: pd.DataFrame
-                   )->Tuple[
-                       Annotated[float, "r2_score"],
-                       Annotated[float, "rmse"],
-                       Annotated[float, "mse"],
+def evaluate_model(model: ClassifierMixin,
+                   X_test: np.ndarray,
+                   y_test: np.ndarray,
+                   )-> Tuple[
+                       Annotated[float, "accuracy"],
+                       Annotated[float, "precision_score"],
+                       Annotated[float, "recall_score"],
+                       Annotated[float, "f1_score"],
+                       Annotated[np.ndarray, "confusion_matrix"],
+                       Annotated[dict, "classification_report"]
                    ]:
     
     """
     Evaluates the model
 
     Args:
-        model (RegressorMixin): Trained model
+        model (ClassifierMixin): Trained model
     
     Returns:
-        None
+        accuracy (float):
     """
     try:
         y_pred = model.predict(X_test)
 
-        r2_ = R2()
-        r2_score = r2_.calculate_scores(y_test, y_pred)
-        mlflow.log_metric("r2_score", r2_score)
+        evaluation = Accuracy()
+        accuracy = evaluation.calculate_scores(y_test, y_pred)
+        mlflow.log_metric("accuracy", accuracy)
+        logging.info(f"Model evaluation {accuracy=}")
 
-        mse_ = MSE()
-        mse = mse_.calculate_scores(y_test, y_pred)
+        confusion_matrix = ConfusionMatrix()
+        confusion_matrix = confusion_matrix.calculate_scores(y_test, y_pred)
+        #mlflow.log_metric("confusion_matrix", confusion_matrix)
+        logging.info(f"Model evaluation {confusion_matrix=}")
 
-        rmse_ = RMSE()
-        rmse = rmse_.calculate_scores(y_test, y_pred)
-        mlflow.log_metric("rmse", rmse)
+        precision_score = PrecisionScore()
+        precision_score = precision_score.calculate_scores(y_test, y_pred)
+        mlflow.log_metric("precision_score", precision_score)
+        logging.info(f"Model evaluation {precision_score=}")
 
-        return r2_score, rmse, mse
+        recall_score = RecallScore()
+        recall_score = recall_score.calculate_scores(y_test, y_pred)
+        mlflow.log_metric("recall_score", recall_score)
+        logging.info(f"Model evaluation {recall_score=}")
+        logging.info(f"Model evaluation completed successfully")
+
+        f1_score = F1Score()
+        f1_score = f1_score.calculate_scores(y_test, y_pred)
+        mlflow.log_metric("f1_score", f1_score)
+        logging.info(f"Model evaluation {f1_score=}")
+        logging.info(f"Model evaluation completed successfully")
+
+        classification_report = ClassificationReport()
+        classification_report = classification_report.calculate_scores(y_test, y_pred)
+        #mlflow.log_metric("classification_report", classification_report)
+        logging.info(f"Model evaluation {classification_report=}")
+        logging.info(f"Model evaluation completed successfully")
+
+        return accuracy, precision_score, recall_score, f1_score, confusion_matrix, classification_report
     except Exception as e:
         raise CustomException(e, "Error while evaluating the model")
+    
