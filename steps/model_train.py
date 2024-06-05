@@ -6,6 +6,7 @@ from src.model_config import ModelNameConfig
 from zenml import step
 
 import pandas as pd
+import numpy as np
 import mlflow
 from zenml.client import Client
 
@@ -16,8 +17,8 @@ from zenml.client import Client
 
 @step
 def train_model(
-    X_train: pd.DataFrame,
-    y_train: pd.DataFrame,
+    X_train: np.ndarray,
+    y_train: np.ndarray,
     model_config: ModelNameConfig,
     )->RegressorMixin:
 
