@@ -50,4 +50,9 @@ Add this line before callint the training pipeline
 use the output to as parameter below:
 `mlflow ui --backend-store-uri "file:/Users/don/Library/Application Support/zenml/local_stores/afe9b1d8-06da-4d66-bcd1-d75224ab95f4/mlruns"`
 
+for large file for macOS
+`brew install git-lfs` 
+after installing, you need to initialize the Git LFS for your repository
+`git lfs install`
+
 
