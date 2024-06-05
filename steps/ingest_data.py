@@ -1,38 +1,44 @@
 from src.logger import logging
 from src.exceptions import CustomException
+import pandas as pd
 from zenml import step
 
-import pandas as pd
 
 class IngestData:
-
-    def __init__(self, data_path: str)-> None:
+    """
+    Ingests data from a source.
+    """
+    def __init__(self, data_path: str):
         self.data_path = data_path
-    
-    def get_data(self) -> pd.DataFrame:
-        """Loads the data from the given path.
 
-        Args:
-            data_path (str): The path to the data file.
+    def get_data(self):
         """
-        logging.info(f"Loading data from {self.data_path}")        
+        Gets data from a source.
+        """
+        logging.info(f"Ingesting data from {self.data_path}")
         return pd.read_csv(self.data_path)
     
-        
-@step
+
+#@step
 def ingest_df(data_path: str) -> pd.DataFrame:
-    """Loads the data from the given path.
+    """
+    Ingests data from a source.
 
     Args:
-        data_path (str): The path to the data file.
+        data_path (str): The path to the data source.
 
     Returns:
-        pd.DataFrame: The loaded data.
+        pd.DataFrame: The ingested data.
     """
+
     try:
-        ingest_data = IngestData(data_path)
-        df = ingest_data.get_data()
-        logging.info(f"Loaded data successfully")
-        return df
+        logging.info(f"Starting data ingestion")
+        data_ingestion = IngestData(data_path)
+        df_raw = data_ingestion.get_data()
+        logging.info(f"Data ingestion completed successfully")
+        return df_raw
+    
     except Exception as e:
-        raise CustomException(e, "Error while ingesting the data")
+        raise CustomException(e, "Error while ingesting data")
+    
+   
