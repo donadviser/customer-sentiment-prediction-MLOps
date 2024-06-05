@@ -21,7 +21,7 @@ experiment_tracker = Client().active_stack.experiment_tracker
 # Enable autologging for the relevant framework
 mlflow.sklearn.autolog()
 
-@step
+@step(enable_cache=False, experiment_tracker=experiment_tracker.name)
 def train_model(
         X_train: np.ndarray, 
         y_train: np.ndarray, 

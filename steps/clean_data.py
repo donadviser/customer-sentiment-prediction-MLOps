@@ -9,10 +9,9 @@ from src.data_cleaning import (
     DataDivideStrategy,
     DataEncodeStrategy
     )
-
-
 import pandas as pd
 import numpy as np
+import joblib
 from typing import Tuple
 from typing_extensions import Annotated
 from zenml import step
@@ -60,6 +59,12 @@ def clean_df(df: pd.DataFrame, target_col: str) -> Tuple[
         # Convert y_train and y_test to np.ndarray
         y_train = y_train.to_numpy()
         y_test = y_test.to_numpy()
+
+        joblib.dump(preprocess_pipeline, 'artefacts/preprocessor.joblib')
+        joblib.dump(X_train_encoded, 'artefacts/X_train.joblib')
+        joblib.dump(X_test_encoded, 'artefacts/X_test.joblib')
+        joblib.dump(y_train, 'artefacts/y_train.joblib')
+        joblib.dump(y_test, 'artefacts/y_test.joblib')
 
         return X_train_encoded, X_test_encoded, y_train, y_test, preprocess_pipeline
     except Exception as e:

@@ -7,6 +7,7 @@ from steps.evaluation import evaluate_model
 from src.logger import logging
 from src.exceptions import CustomException
 import pandas as pd
+import joblib
 
 
 @pipeline(enable_cache=False)
@@ -24,35 +25,15 @@ def train_pipeline(data_path: str)->None:
         classifier_model = train_model(X_train_encoded, y_train, X_test_encoded, y_test)
         accuracy, precision_score, recall_score, f1_score, confusion_matrix, classification_report  = evaluate_model(classifier_model, X_test_encoded, y_test)
 
-        """
         logging.info(f"accuracy: {accuracy}")
         logging.info(f"precision_score: {precision_score}")
         logging.info(f"recall_score: {recall_score}")
         logging.info(f"f1_score: {f1_score}")
         logging.info(f"confusion_matrix: {confusion_matrix}")
         logging.info(f"classification_report: {classification_report}")
-
-        report = {
-            "precision_0": classification_report["0"]["precision"],
-            "recall_0": classification_report["0"]["recall"],
-            "f1_score_0": classification_report["0"]["f1-score"],
-            "precision_1": classification_report["1"]["precision"],
-            "recall_1": classification_report["1"]["recall"],
-            "f1_score_1": classification_report["1"]["f1-score"],
-            "accuracy": classification_report["accuracy"],
-        }
-
-        # One-liner version
-        print(*(f"{key}: {value}" for key, value in report.items()), sep='\n')
-
-        logging.info("Training pipeline completed successfully")
-
         
-        joblib.dump(preprocessor, 'artefacts/preprocessor.joblib')
-        joblib.dump(X_train_preprocessed, 'artefacts/X_train.joblib')
-        joblib.dump(X_test_preprocessed, 'artefacts/X_test.joblib')
-        joblib.dump(y_train, 'artefacts/y_train.joblib')
-        joblib.dump(y_test, 'artefacts/y_test.joblib')"""
+
+        logging.info("Training pipeline completed successfully")      
 
     except Exception as e:
         raise CustomException(e, "Error while training the model")
