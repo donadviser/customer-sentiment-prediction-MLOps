@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/ed33ccf204214225b9bfc6f86dfa5697/artifacts
+end_time: 1717588196462
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ed33ccf204214225b9bfc6f86dfa5697
+run_name: rare-kit-327
+run_uuid: ed33ccf204214225b9bfc6f86dfa5697
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717588194579
+status: 3
+tags: []
+user_id: don

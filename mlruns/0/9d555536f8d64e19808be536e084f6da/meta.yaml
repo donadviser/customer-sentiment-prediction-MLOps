@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/9d555536f8d64e19808be536e084f6da/artifacts
+end_time: 1717592346049
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9d555536f8d64e19808be536e084f6da
+run_name: fortunate-panda-623
+run_uuid: 9d555536f8d64e19808be536e084f6da
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717592346041
+status: 4
+tags: []
+user_id: don

@@ -2,6 +2,8 @@ from src.logger import logging
 from src.exceptions import CustomException
 import pandas as pd
 from zenml import step
+from zenml.config.retry_config import StepRetryConfig
+
 
 
 class IngestData:
@@ -10,8 +12,9 @@ class IngestData:
     """
     def __init__(self, data_path: str):
         self.data_path = data_path
+        print(self.data_path)
 
-    def get_data(self):
+    def get_data(self) -> pd.DataFrame:
         """
         Gets data from a source.
         """
@@ -19,7 +22,8 @@ class IngestData:
         return pd.read_csv(self.data_path)
     
 
-#@step
+    
+@step
 def ingest_df(data_path: str) -> pd.DataFrame:
     """
     Ingests data from a source.
@@ -32,10 +36,10 @@ def ingest_df(data_path: str) -> pd.DataFrame:
     """
 
     try:
-        logging.info(f"Starting data ingestion")
-        data_ingestion = IngestData(data_path)
-        df_raw = data_ingestion.get_data()
-        logging.info(f"Data ingestion completed successfully")
+        logging.info(f"Starting data ingestion STEP")
+        data_ingest = IngestData(data_path)
+        df_raw = data_ingest.get_data()
+        logging.info(f"Data ingestion STEP completed successfully")
         return df_raw
     
     except Exception as e:

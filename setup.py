@@ -19,7 +19,7 @@ def get_packages(file_path:str)-> List[str]:
 
 
 setup(
-    name='pre-purchase sentiment prediction',
+    name='customer sentiment prediction',
     version='0.0.1',
     description='An ML prediction model to predict the review score for the next purchase',
     author='Derrick Njobuenwu',

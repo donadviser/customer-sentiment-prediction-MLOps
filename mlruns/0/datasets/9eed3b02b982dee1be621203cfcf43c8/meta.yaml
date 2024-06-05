@@ -1,0 +1,13 @@
+digest: 9c06e78f
+name: dataset
+profile: '{"num_rows": 37887, "num_elements": 340983}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "late_delivery", "required":
+  true}, {"type": "integer", "name": "order_day", "required": true}, {"type": "integer",
+  "name": "order_hour", "required": true}, {"type": "integer", "name": "order_month",
+  "required": true}, {"type": "double", "name": "order_value", "required": true},
+  {"type": "long", "name": "payment_installments", "required": true}, {"type": "long",
+  "name": "payment_sequential", "required": true}, {"type": "double", "name": "payment_value",
+  "required": true}, {"type": "double", "name": "product_volume_m3", "required": true}]}'
+source: '{"tags": {"mlflow.user": "don", "mlflow.source.name": "run_pipeline.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "6f82b513ea2ffe896c7d823cf3f8de21ae6d4f41"}}'
+source_type: code

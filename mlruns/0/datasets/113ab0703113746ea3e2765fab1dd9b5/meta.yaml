@@ -7,5 +7,5 @@ schema: '{"mlflow_colspec": [{"type": "string", "name": "order_status", "require
   "required": true}, {"type": "string", "name": "product_category_name_english", "required":
   true}]}'
 source: '{"tags": {"mlflow.user": "don", "mlflow.source.name": "run_pipeline.py",
-  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "ff65cb31f12586dc37cfef0a21e88033bd7be676"}}'
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "6f82b513ea2ffe896c7d823cf3f8de21ae6d4f41"}}'
 source_type: code

@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/mlruns/0/f133c73c6588461cbe9d6c75a011fe51/artifacts
+end_time: 1717594604015
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f133c73c6588461cbe9d6c75a011fe51
+run_name: hilarious-ray-451
+run_uuid: f133c73c6588461cbe9d6c75a011fe51
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717594602398
+status: 3
+tags: []
+user_id: don

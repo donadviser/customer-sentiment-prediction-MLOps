@@ -79,19 +79,20 @@ class DataPreProcessStrategy(DataStrategy):
             data = (data
                     #.dropna(thresh=len(data) * 0.5, axis=1)
                     #.assign(**{col: pd.to_datetime(data[col], errors='coerce') for col in datetime_cols})
+                    .dropna()
                     .assign(
                         time_to_delivery=lambda x: (x['order_delivered_customer_date'] - x['order_approved_at']).dt.days,
                         order_processing_time=lambda x: (x['order_approved_at'] - x['order_purchase_timestamp']).dt.days,
                         estimated_vs_actual_shipping=lambda x: (x['order_estimated_delivery_date'] - x['order_delivered_customer_date']).dt.days,
-                        product_volume_m3=lambda x: (x['product_length_cm'] * x['product_width_cm'] * x['product_height_cm']) / 1000000,
+                        product_volume_m3=lambda x: (x['product_length_cm'] * x['product_width_cm'] * x['product_height_cm']) / 1000000.0,
                         satisfaction=lambda x: (x['review_score'] >= 4).astype(int),
                         order_value=lambda x: x['price'] + x['freight_value'],
-                        late_delivery=lambda x: (x['order_delivered_customer_date'] > x['order_estimated_delivery_date']).astype(int),
+                        late_delivery=lambda x: (x['order_delivered_customer_date'] > x['order_estimated_delivery_date']).astype(float),
                         order_month=lambda x: x['order_purchase_timestamp'].dt.month,
                         order_day=lambda x: x['order_purchase_timestamp'].dt.dayofweek,
                         order_hour=lambda x: x['order_purchase_timestamp'].dt.hour
                         )
-                    .dropna()
+                    
                     .drop(columns=redundant_cols)
                     .drop(columns=datetime_cols)
 
