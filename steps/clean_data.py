@@ -1,58 +1,66 @@
+from src.logger import logging
+from src.exceptions import CustomException
+from sklearn.compose import ColumnTransformer
+from src.data_cleaning import (
+    DataCleaning,
+    DataDateTimeConverter,
+    DataPreProcessStrategy,
+    DropMissingThreshold,
+    DataDivideStrategy,
+    DataEncodeStrategy
+    )
+
+
 import pandas as pd
 import numpy as np
 from typing import Tuple
 from typing_extensions import Annotated
-import joblib
-from src.logger import logging
-from src.exceptions import CustomException
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from src.data_cleaning import preprocess_and_split_data
 from zenml import step
 
-@step(enable_cache=False)
-def clean_df(df: pd.DataFrame) ->Tuple[pd.DataFrame, pd.DataFrame, Pipeline]:
+
+@step
+def clean_df(df: pd.DataFrame, target_col: str) -> Tuple[
+    Annotated[np.ndarray, "X_train_preprocessed"],
+    Annotated[np.ndarray, "X_test_preprocessed"],
+    Annotated[np.ndarray, "y_train"],
+    Annotated[np.ndarray, "y_test"],
+    Annotated[ColumnTransformer, "preprocess_pipeline"]
+]:
     
-    """
-    Clean, Preprocess, Divide and Encode the data
-
-    Args:
-        df (pd.DataFrame): The input DataFrame.
-
-    Returns: 
-        Tuple: Preprocessed training and testing data, and the preprocessor:
-        X_train (np.ndarray)
-        X_test (np.ndarray)
-        y_train (np.ndarray)
-        y_test (np.ndarray)
-        preprocessor (str)
-    """
-
     try:
-        logging.info("Data Clean, Preprocess, Divide and Encode starting")
-        target_col: str = 'satisfaction'
+        data_preprocessed = DataCleaning(df, DataDateTimeConverter())
+        data_preprocessed = data_preprocessed.handle_data()
+        print(f"\nDataDateTimeConverter:\n{data_preprocessed.columns}")
 
-        X_train_preprocessed, X_test_preprocessed, preprocess_pipeline = preprocess_and_split_data(df)
-    
-        logging.info("Data cleaned, preprocessed, split, and encoded successfully.")
+        data_preprocessed = DataCleaning(data_preprocessed, DataPreProcessStrategy())
+        data_preprocessed = data_preprocessed.handle_data()
+        print(f"/nDataPreProcessStrategy:\n{data_preprocessed.shape}")
 
-        return X_train_preprocessed, X_test_preprocessed, preprocess_pipeline
+        data_preprocessed = DataCleaning(data_preprocessed, DropMissingThreshold())
+        data_preprocessed = data_preprocessed.handle_data()
+        print(f"\nDropMissingThreshold\n{data_preprocessed.shape}")
+        print(data_preprocessed.columns)
+        print(data_preprocessed.head())
+
+        data_divider = DataCleaning(data_preprocessed, DataDivideStrategy())
+        X_train, X_test, y_train, y_test = data_divider.handle_data()
+        print(f"\nDataDivideStrategy:\n{X_train.shape}")
+        print(X_test.shape)
+        print(y_train.shape)
+        print(y_test.shape)
+        #print(y_train.head())
+
+        data_encoder = DataCleaning((X_train), DataEncodeStrategy(), target_col)
+        preprocessor = data_encoder.handle_data()
+
+        X_train_preprocessed = preprocessor.fit_transform(X_train, y_train)
+        X_test_preprocessed = preprocessor.transform(X_test)
+        
+
+        # Convert y_train and y_test to np.ndarray
+        y_train = y_train.to_numpy()
+        y_test = y_test.to_numpy()
+
+        return X_train_preprocessed, X_test_preprocessed, y_train, y_test, preprocessor
     except Exception as e:
-        raise CustomException(e, "Errorr while cleaning, preprocessing, dividing, and encoding the data")
-    
-
-if __name__ == "__main__":
-    df = pd.read_csv('/Users/don/github-projects/pre-purchase-sentiment-prediction-MLOps/data/olist_customers_dataset.csv')
-    X_train, X_test, y_train, y_test, preprocessor = clean_df(df)
-
-    joblib.dump(preprocessor, 'artefacts/preprocessor.joblib')
-    joblib.dump(X_train, 'artefacts/X_train.joblib')
-    joblib.dump(X_test, 'artefacts/X_test.joblib')
-    joblib.dump(y_train, 'artefacts/y_train.joblib')
-    joblib.dump(y_test, 'artefacts/y_test.joblib')
-
-    print(f"X_train.shape: {X_train.shape}")
-    print(f"X_test.shape: {X_test.shape}")
-    print(f"y_train.shape: {y_train.shape}")
-    print(f"y_test.shape: {y_test.shape}")
-    print(f"preprocessor: {preprocessor}")
+        raise CustomException(e, f"Error in clean_df")
