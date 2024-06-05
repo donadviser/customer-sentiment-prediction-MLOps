@@ -44,7 +44,7 @@ def evaluate_model(model: ClassifierMixin,
         evaluation = Accuracy()
         accuracy = evaluation.calculate_scores(y_test, y_pred)
         mlflow.log_metric("accuracy", accuracy)
-        logging.info(f"Model evaluation {accuracy=}")
+        logging.info(f"Model evaluation {accuracy=}") 
 
         confusion_matrix = ConfusionMatrix()
         confusion_matrix = confusion_matrix.calculate_scores(y_test, y_pred)
